@@ -1,6 +1,6 @@
 
 
-#define SET_PWM_16Khz true // Set PWM transistors frequency 16 kHz
+#define SET_PWM_16Khz true 
 
 #if SET_PWM_16Khz == true
 #include <avr/power.h>
@@ -44,14 +44,14 @@ float W_Current_Coef = (5.0 / 511.0);
 int PWM = 165; // Current limit
 
 unsigned long previousMillis = 0;
-int interval = 100; // Telemetry interval
+int interval = 100; 
 
 void setup() {
   Serial.begin(115200);
 
 #if SET_PWM_16Khz == true
-  clock_prescale_set(clock_div_2); // Set CPU to 8 MHz mode
-  Serial.begin(230400); // Mean 115200(becouse CPU frequency down 2)
+  clock_prescale_set(clock_div_2); /
+  Serial.begin(230400); /
   interval = interval / 2;
 #endif
 
@@ -69,13 +69,12 @@ void setup() {
   setPWMPrescaler(PWM_V, 1);
   setPWMPrescaler(PWM_W, 1);
 
-  // Using Arduino Interrupts https://dronebotworkshop.com/interrupts/
-  // Enable PCIE2 Bit2 = 1 (Port D)
+  
   PCICR |= B00000100;
   // Select PCINT21, PCINT22, PCINT23 = 1 (Pin D5, D6, D7)
   PCMSK2 |= B11100000;
 
-  MotorRun(0); // Inintalization
+  MotorRun(0); 
   delay(1000);
   Hall_State = HallSensorsRead();
   MotorRun(Hall_State);
@@ -112,7 +111,7 @@ int HallSensorsRead() {
   return PIND >> 5;
 }
 
-// Six-Step (Trapezoidal) Commutation https://onlinedocs.microchip.com/oxy/GUID-ED5A4EC0-70D9-40E8-82A4-9EE711C91C4E-en-US-11/GUID-A2E50F02-E898-425F-B2A2-36E161DE810B.html
+
 void MotorRun(int SensorState) {
   switch (SensorState) {
     case 1: // 100 Step 4
@@ -162,7 +161,7 @@ void MotorRun(int SensorState) {
   }
 }
 
-// How to change the PWM frequency on Arduino https://www.luisllamas.es/en/change-pwm-frequency-arduino/
+
 void setPWMPrescaler(uint8_t pin, uint16_t prescale) {
 
   byte mode;
